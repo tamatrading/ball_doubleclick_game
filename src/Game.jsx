@@ -223,6 +223,14 @@ const Game = () => {
       <div className="absolute bottom-4 left-4 flex items-center">
         <AnimalCharacter emotion={characterEmotion} />
         <div className="ml-4 text-lg font-bold">{characterMessage}</div>
+        <a
+          href="https://mouselesson.manabi-time.com"
+          className="fixed bottom-4 right-4"
+        >
+          <Button className="bg-gray-500 hover:bg-gray-600 text-white">
+            もどる
+          </Button>
+        </a>
       </div>
       {showCongratulations && <CongratulationsMessage elapsedTime={elapsedTime} onRestart={initializeGame} />}
     </div>
