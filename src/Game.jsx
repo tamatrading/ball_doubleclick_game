@@ -42,11 +42,18 @@ const CongratulationsMessage = ({ elapsedTime, onRestart }) => (
         <AnimalCharacter emotion="happy" className="w-16 h-16 animate-spin" />
       </div>
       <Button 
-        onClick={onRestart} 
-        className="mt-12 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-full text-xl transition-all duration-300 transform hover:scale-105"
+        onClick={onRestart}
+        className="mt-12 mb-16 bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-full text-xl transition-all duration-300 transform hover:scale-105"
       >
         もういっかいする
       </Button>
+      <div className="absolute bottom-4 right-4">
+        <a href="https://mouselesson.manabi-time.com">
+          <Button className="bg-gray-500 hover:bg-gray-600 text-white">
+            もどる
+          </Button>
+        </a>
+      </div>
     </div>
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {[...Array(50)].map((_, i) => (
