@@ -70,7 +70,7 @@ const CongratulationsMessage = ({ elapsedTime, onRestart }) => (
       >
         もういっかいする
       </Button>
-      <a href="https://mouselesson.manabi-time.com" className="mt-4">
+      <a href="https://manabi-time.com/mouse/" className="mt-4">
         <Button className="bg-gray-500 hover:bg-gray-600 text-white">
           もどる
         </Button>
@@ -256,7 +256,7 @@ const Game = () => {
           <div className="bg-white rounded-2xl px-4 py-2 shadow-md text-lg font-bold max-w-[180px]">{characterMessage}</div>
         </div>
         <div className="mt-6 flex justify-center">
-          <a href="https://mouselesson.manabi-time.com">
+          <a href="https://manabi-time.com/mouse/">
             <Button className="bg-gray-500 hover:bg-gray-600 text-white">
               もどる
             </Button>
