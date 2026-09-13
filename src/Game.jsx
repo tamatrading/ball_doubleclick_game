@@ -5,7 +5,11 @@ import { Alert } from "@/components/ui/alert";
 
 const AnimalCharacter = ({ emotion, className }) => (
   <svg width="100" height="100" viewBox="0 0 100 100" className={className}>
+    <ellipse cx="22" cy="18" rx="11" ry="15" fill="#FFD700" transform="rotate(-20 22 18)" />
+    <ellipse cx="78" cy="18" rx="11" ry="15" fill="#FFD700" transform="rotate(20 78 18)" />
     <circle cx="50" cy="50" r="40" fill="#FFD700" />
+    <ellipse cx="28" cy="58" rx="8" ry="5" fill="#FF9EB5" opacity="0.7" />
+    <ellipse cx="72" cy="58" rx="8" ry="5" fill="#FF9EB5" opacity="0.7" />
     <circle cx="35" cy="40" r="5" fill="#000" />
     <circle cx="65" cy="40" r="5" fill="#000" />
     {emotion === 'happy' && (
@@ -18,6 +22,25 @@ const AnimalCharacter = ({ emotion, className }) => (
       <path d="M 30 50 Q 50 80 70 50" stroke="#000" strokeWidth="3" fill="none" />
     )}
   </svg>
+);
+
+const Ball = ({ ball, onClick }) => (
+  <div
+    className={`absolute w-12 h-12 rounded-full cursor-pointer transition-all duration-500 ${
+      ball.status === 'active' ? `bg-${ball.color}-500` : 'bg-yellow-300 scale-150 opacity-0'
+    }`}
+    style={{ left: `${ball.x}%`, top: `${ball.y}%` }}
+    onClick={onClick}
+  >
+    {ball.status === 'active' && (
+      <>
+        <span className="absolute left-[22%] top-[28%] w-[14%] h-[14%] rounded-full bg-gray-800" />
+        <span className="absolute right-[22%] top-[28%] w-[14%] h-[14%] rounded-full bg-gray-800" />
+        <span className="absolute left-[30%] top-[50%] w-[40%] h-[18%] border-b-[3px] border-gray-800 rounded-b-full" />
+        <span className="absolute left-[14%] top-[12%] w-[28%] h-[16%] rounded-full bg-white/50" />
+      </>
+    )}
+  </div>
 );
 
 const CongratulationsMessage = ({ elapsedTime, onRestart }) => (
@@ -200,14 +223,19 @@ const Game = () => {
   }, [balls, score, playSound]);
 
   return (
-    <div className="w-full h-screen bg-blue-100 p-4 relative" onContextMenu={handleContextMenu}>
-      <h1 className="text-2xl font-bold mb-4">カラフルぼーるわりゲーム (ダブルクリック版)</h1>
-      <div className="text-6xl font-bold mb-6 text-center">てんすう: {score}</div>
-      <div className="absolute top-4 right-4 flex items-center space-x-2">
-        <Timer className="w-6 h-6" />
-        <span className="text-xl font-bold">{elapsedTime}びょう</span>
-      </div>
-      <div className="w-full h-64 bg-white relative">
+    <div className="w-full min-h-screen bg-blue-100 p-4 flex justify-center" onContextMenu={handleContextMenu}>
+      <div className="w-full max-w-2xl relative">
+        <h1 className="text-2xl font-bold mb-4 text-center">カラフルぼーるわりゲーム (ダブルクリック版)</h1>
+        <div className="flex justify-center mb-6">
+          <div className="bg-white rounded-full px-8 py-2 shadow-md text-4xl font-bold text-orange-500">
+            てんすう {score}
+          </div>
+        </div>
+        <div className="absolute top-4 right-4 flex items-center space-x-2 bg-white rounded-full px-4 py-2 shadow-md">
+          <Timer className="w-5 h-5 text-blue-500" />
+          <span className="text-lg font-bold text-blue-500">{elapsedTime}びょう</span>
+        </div>
+
         {showWarning && (
           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
             <Alert className="bg-yellow-100 border-yellow-400 text-yellow-800 px-6 py-4 rounded-lg shadow-lg animate-bounce">
@@ -216,29 +244,29 @@ const Game = () => {
             </Alert>
           </div>
         )}
-        {balls.map(ball => (
-          <div
-            key={ball.id}
-            className={`absolute w-12 h-12 rounded-full cursor-pointer transition-all duration-500 ${
-              ball.status === 'active' ? `bg-${ball.color}-500` : 'bg-yellow-300 scale-150 opacity-0'
-            }`}
-            style={{ left: `${ball.x}%`, top: `${ball.y}%` }}
-            onClick={() => handleBallClick(ball.id)}
-          />
-        ))}
+
+        <div className="w-full h-[420px] bg-gradient-to-b from-sky-200 to-sky-100 rounded-2xl relative overflow-hidden">
+          <div className="absolute top-3 left-6 w-14 h-6 bg-white rounded-full opacity-80" aria-hidden="true" />
+          <div className="absolute top-5 left-11 w-10 h-5 bg-white rounded-full opacity-80" aria-hidden="true" />
+          <div className="absolute top-8 right-10 w-12 h-5 bg-white rounded-full opacity-70" aria-hidden="true" />
+          {balls.map(ball => (
+            <Ball key={ball.id} ball={ball} onClick={() => handleBallClick(ball.id)} />
+          ))}
+        </div>
+        <div className="mt-4 flex items-end space-x-3">
+          <AnimalCharacter emotion={characterEmotion} className="w-20 h-20" />
+          <div className="bg-white rounded-2xl px-4 py-2 shadow-md text-lg font-bold max-w-[180px]">{characterMessage}</div>
+        </div>
       </div>
-      <div className="absolute bottom-4 left-4 flex items-center">
-        <AnimalCharacter emotion={characterEmotion} />
-        <div className="ml-4 text-lg font-bold">{characterMessage}</div>
-        <a
-          href="https://mouselesson.manabi-time.com"
-          className="fixed bottom-4 right-4"
-        >
-          <Button className="bg-gray-500 hover:bg-gray-600 text-white">
-            もどる
-          </Button>
-        </a>
-      </div>
+
+      <a
+        href="https://mouselesson.manabi-time.com"
+        className="fixed bottom-4 right-4"
+      >
+        <Button className="bg-gray-500 hover:bg-gray-600 text-white">
+          もどる
+        </Button>
+      </a>
       {showCongratulations && <CongratulationsMessage elapsedTime={elapsedTime} onRestart={initializeGame} />}
     </div>
   );
